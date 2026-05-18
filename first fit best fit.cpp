@@ -9,87 +9,124 @@ int n = 4;
 
 void firstFit() {
     int b[5];
-    for(int i = 0; i < m; i++)
+    for (int i = 0; i < m; i++)
         b[i] = block[i];
 
-    for(int i = 0; i < n; i++) {
-        for(int j = 0; j < m; j++) {
-            if(b[j] >= process[i]) {
-                b[j] = b[j] - process[i];
+    cout << "\nFirst Fit\n";
+
+    for (int i = 0; i < n; i++) {
+        int pos = -1;
+
+        for (int j = 0; j < m; j++) {
+            if (b[j] >= process[i]) {
+                pos = j;
                 break;
             }
         }
-    }
 
-    cout << "First Fit Done" << endl;
+        if (pos != -1) {
+            cout << "Process " << process[i]
+                 << " -> Block " << pos + 1
+                 << " (" << b[pos] << ")" << endl;
+            b[pos] = b[pos] - process[i];
+        } else {
+            cout << "Process " << process[i]
+                 << " -> Not Allocated" << endl;
+        }
+    }
 }
 
 void bestFit() {
     int b[5];
-    for(int i = 0; i < m; i++)
+    for (int i = 0; i < m; i++)
         b[i] = block[i];
 
-    for(int i = 0; i < n; i++) {
+    cout << "\nBest Fit\n";
+
+    for (int i = 0; i < n; i++) {
         int pos = -1;
 
-        for(int j = 0; j < m; j++) {
-            if(b[j] >= process[i]) {
-                if(pos == -1 || b[j] < b[pos])
+        for (int j = 0; j < m; j++) {
+            if (b[j] >= process[i]) {
+                if (pos == -1 || b[j] < b[pos])
                     pos = j;
             }
         }
 
-        if(pos != -1)
+        if (pos != -1) {
+            cout << "Process " << process[i]
+                 << " -> Block " << pos + 1
+                 << " (" << b[pos] << ")" << endl;
             b[pos] = b[pos] - process[i];
+        } else {
+            cout << "Process " << process[i]
+                 << " -> Not Allocated" << endl;
+        }
     }
-
-    cout << "Best Fit Done" << endl;
 }
 
 void worstFit() {
     int b[5];
-    for(int i = 0; i < m; i++)
+    for (int i = 0; i < m; i++)
         b[i] = block[i];
 
-    for(int i = 0; i < n; i++) {
+    cout << "\nWorst Fit\n";
+
+    for (int i = 0; i < n; i++) {
         int pos = -1;
 
-        for(int j = 0; j < m; j++) {
-            if(b[j] >= process[i]) {
-                if(pos == -1 || b[j] > b[pos])
+        for (int j = 0; j < m; j++) {
+            if (b[j] >= process[i]) {
+                if (pos == -1 || b[j] > b[pos])
                     pos = j;
             }
         }
 
-        if(pos != -1)
+        if (pos != -1) {
+            cout << "Process " << process[i]
+                 << " -> Block " << pos + 1
+                 << " (" << b[pos] << ")" << endl;
             b[pos] = b[pos] - process[i];
+        } else {
+            cout << "Process " << process[i]
+                 << " -> Not Allocated" << endl;
+        }
     }
-
-    cout << "Worst Fit Done" << endl;
 }
 
 void nextFit() {
     int b[5];
-    for(int i = 0; i < m; i++)
+    for (int i = 0; i < m; i++)
         b[i] = block[i];
 
     int pos = 0;
 
-    for(int i = 0; i < n; i++) {
-        int count = 0;
+    cout << "\nNext Fit\n";
 
-        while(count < m) {
-            if(b[pos] >= process[i]) {
+    for (int i = 0; i < n; i++) {
+        int count = 0;
+        int start = pos;
+        int allocated = 0;
+
+        while (count < m) {
+            if (b[pos] >= process[i]) {
+                cout << "Process " << process[i]
+                     << " -> Block " << pos + 1
+                     << " (" << b[pos] << ")" << endl;
                 b[pos] = b[pos] - process[i];
+                allocated = 1;
                 break;
             }
 
             pos = (pos + 1) % m;
             count++;
         }
-    }
 
-    cout << "Next Fit Done" << endl;
+        if (!allocated) {
+            cout << "Process " << process[i]
+                 << " -> Not Allocated" << endl;
+        }
+    }
 }
 
 int main() {
