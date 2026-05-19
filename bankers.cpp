@@ -25,7 +25,7 @@ int main() {
     for(int i = 0; i < m; i++)
         cin >> avail[i];
 
-    // Calculate Need
+    
     for(int i = 0; i < n; i++)
         for(int j = 0; j < m; j++)
             need[i][j] = max[i][j] - alloc[i][j];
